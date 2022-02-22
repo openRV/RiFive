@@ -1,4 +1,4 @@
-package mylib
+package riscv
 
 import spinal.core._
 import spinal.core.sim._

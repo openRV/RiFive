@@ -16,7 +16,7 @@
  * License along with this library.
  */
 
-package mylib
+package riscv
 
 import spinal.core._
 
@@ -48,7 +48,7 @@ object MyTopLevelVerilog {
 //Generate the MyTopLevel's VHDL
 object MyTopLevelVhdl {
   def main(args: Array[String]) {
-    SpinalVhdl(new MyTopLevel)
+    SpinalVhdl(new InstructionCache)
   }
 }
 

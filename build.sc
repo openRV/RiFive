@@ -2,7 +2,7 @@
 
 val spinalVersion = "1.6.0"
 
-object riscv extends SbtModule {
+object mylib extends SbtModule {
   def scalaVersion = "2.12.14"
 
   override def millSourcePath = os.pwd

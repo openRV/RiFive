@@ -1,8 +1,8 @@
 ThisBuild / version := "1.0"
 ThisBuild / scalaVersion := "2.11.12"
-ThisBuild / organization := "cn.edu.whu.wuhanuniversity"
+ThisBuild / organization := "cn.eduwhu.wuhanuniversity"
 
-lazy val riscv = (project in file("."))
+lazy val mylib = (project in file("."))
   .settings(
     name := "RiFive",
     libraryDependencies ++= Seq(spinalCore, spinalLib, spinalIdslPlugin)

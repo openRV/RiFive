@@ -3,6 +3,7 @@ package riscv
 import spinal.core._
 
 import scala.collection.mutable
+import scala.language.postfixOps
 
 object Directions extends Enumeration {
   type Direction
@@ -12,11 +13,13 @@ object Directions extends Enumeration {
 case class PipelineReg() extends Component {
 
   val io = new Bundle {
+    val a = in UInt (32 bits)
   }
 
-  var ios: mutable.Set[BaseType] = Component.current.getAllIo
-  var signals: Vector[(String, Directions.Value, Data)] = Vector() //("m",Directions.Forward,Bool()))
-  var signalNum: Int = 0
+  private val comp = Component.current
+  private val ios: mutable.Set[BaseType] = comp.getAllIo
+  private var signals: Vector[(String, Directions.Value, BaseType)] = Vector() //("m",Directions.Forward,Bool()))
+  private var signalNum: Int = 0
 
   /**
    * used to add in / out signal to ios bundle
@@ -25,14 +28,23 @@ case class PipelineReg() extends Component {
     val vec = Vector((iSignalName, iSignalDirection, iSignalType))
     signals = signals ++ vec
     /////////////////////////////////////////
-    ios = ios + in(iSignalType)
-    ios.last.setName("i_f_" + iSignalName)
-    val from = ios.last
-    ios = ios + out(iSignalType)
-    ios.last.setName("o_f_" + iSignalName)
-    val to = ios.last
-
-    to.assignFromBits(from.asBits)
+    if (iSignalDirection == Directions.Forward) {
+      ios += in(iSignalType)
+      ios.last.setName("i_f_" + iSignalName)
+      val from = ios.last
+      ios += out(iSignalType)
+      ios.last.setName("o_f_" + iSignalName)
+      val to = ios.last
+      to.assignFromBits(from.asBits)
+    } else {
+      ios += in(iSignalType)
+      ios.last.setName("i_b_" + iSignalName)
+      val from = ios.last
+      ios += out(iSignalType)
+      ios.last.setName("o_b_" + iSignalName)
+      val to = ios.last
+      to.assignFromBits(io.a.asBits.resized)
+    }
     ////////////////////////////////////////
     signalNum += 2
     signalNum

@@ -30,20 +30,20 @@ case class PipelineReg() extends Component {
     /////////////////////////////////////////
     if (iSignalDirection == Directions.Forward) {
       ios += in(iSignalType)
-      ios.last.setName("i_f_" + iSignalName)
+      ios.last.setName("in_i_f_" + iSignalName)
       val from = ios.last
       ios += out(iSignalType)
-      ios.last.setName("o_f_" + iSignalName)
+      ios.last.setName("io_o_f_" + iSignalName)
       val to = ios.last
       to.assignFromBits(from.asBits)
     } else {
       ios += in(iSignalType)
-      ios.last.setName("i_b_" + iSignalName)
+      ios.last.setName("io_i_b_" + iSignalName)
       val from = ios.last
       ios += out(iSignalType)
-      ios.last.setName("o_b_" + iSignalName)
+      ios.last.setName("io_o_b_" + iSignalName)
       val to = ios.last
-      to.assignFromBits(io.a.asBits.resized)
+      to.assignFromBits(from.asBits.resized)
     }
     ////////////////////////////////////////
     signalNum += 2
